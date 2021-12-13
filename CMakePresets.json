@@ -1,0 +1,70 @@
+{
+    "version": 2,
+    "configurePresets": [
+        {
+            "name": "base",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "value": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                    "type": "FILEPATH"
+                }
+            }
+        },
+        {
+            "name": "linux-dynamic",
+            "inherits": "base",
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic"
+            },
+            "environment": {
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}"
+            }
+        },
+        {
+            "name": "linux-static",
+            "inherits": "base",
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x64-linux"
+            }
+        },
+        {
+            "name": "windows-static",
+            "inherits": "base",
+            "generator": "Visual Studio 16 2019",
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+            },
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "intelliSenseMode": "windows-msvc-x64",
+                    "hostOS": [
+                        "Windows"
+                    ]
+                }
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "linux-dynamic",
+            "configurePreset": "linux-dynamic"
+        },
+        {
+            "name": "linux-static",
+            "configurePreset": "linux-static"
+        },
+        {
+            "name": "windows-static-debug",
+            "configurePreset": "windows-static",
+            "configuration": "Debug"
+        }
+    ]
+}
